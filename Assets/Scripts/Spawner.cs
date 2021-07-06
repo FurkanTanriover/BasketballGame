@@ -5,31 +5,24 @@ using UnityEngine;
 public class Spawner : MonoSingleton<Spawner>
 {
     GameObject obj = null;
-
     public float spawnDelayTime;
 
     private void Start()
     {
-        BallPool.Instance.GetPooledObject(0);
         SwipeController.OnShoot += SpawnBall;
-    }
-    private void Update()
-    {
-
+        obj = BallPool.Instance.GetPooledObject(LevelController.Instance.levelList[0].balltype);
+        obj.transform.position = LevelController.Instance.startPosition.transform.position;
     }
     public void SpawnBall()
     {
         StartCoroutine(SpawnBallDelay());
 
     }
-
     public IEnumerator SpawnBallDelay()
     {
         yield return new WaitForSeconds(spawnDelayTime);
-        obj = BallPool.Instance.GetPooledObject(0);
-        obj.transform.position = BallPool.Instance.spawnPoint.transform.position;
-
-       
+        obj = BallPool.Instance.GetPooledObject(LevelController.Instance.levelList[0].balltype);
+        obj.transform.position = LevelController.Instance.startPosition.transform.position;    
     }
 
 }

@@ -14,8 +14,9 @@ public class BallPool : MonoSingleton<BallPool>
         public int poolSize;
     }
 
-    public GameObject spawnPoint;
     public int poolCounter;
+
+    public static event Action BallAmountAction;
     
    
     [SerializeField] private Pool[] pools = null;
@@ -25,10 +26,11 @@ public class BallPool : MonoSingleton<BallPool>
         for (int j = 0; j < pools.Length; j++)
         {
             pools[j].pooledObjects = new Queue<GameObject>();
+            poolCounter = 1;
 
             for (int i = 0; i < pools[j].poolSize; i++)
             {
-                GameObject obj = Instantiate(pools[j].objectPrefab,spawnPoint.transform.position, Quaternion.identity, transform);
+                GameObject obj = Instantiate(pools[j].objectPrefab,LevelController.Instance.startPosition.transform.position, Quaternion.identity, transform);
                 obj.SetActive(false);
                 poolCounter++;
                 pools[j].pooledObjects.Enqueue(obj);
@@ -47,6 +49,8 @@ public class BallPool : MonoSingleton<BallPool>
         obj.SetActive(true);
         pools[objectType].pooledObjects.Enqueue(obj);
         Debug.Log("Kalan top sayýsý: " + poolCounter);
+        BallAmountAction?.Invoke();
+
         return obj;
     }
 

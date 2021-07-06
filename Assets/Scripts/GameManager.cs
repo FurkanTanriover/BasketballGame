@@ -4,12 +4,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class GameManager : MonoSingleton<GameManager>
 {
 
     public bool gameEnded = false;
     public static event Action EndGameEvent;
+
+    [SerializeField] private GameObject scoreObject;
+
+    public float showEndPanelDelay = 8f;
 
     private void Start()
     {
@@ -29,20 +34,26 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void EndGame()
     {
+        StartCoroutine(ShowEndPanelDelay());
+    }
+
+    public IEnumerator ShowEndPanelDelay()
+    {
         if (gameEnded == false)
         {
-            if(BallPool.Instance.poolCounter <= -1)
+            if (BallPool.Instance.poolCounter <= 0)
             {
+                yield return new WaitForSeconds(showEndPanelDelay);
                 gameEnded = true;
                 EndGameEvent?.Invoke();
                 Debug.Log("GAME OVER");
             }
- 
         }
     }
 
+
     public void NextLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+      //  LevelController.Instance.Restart();
     }
 }

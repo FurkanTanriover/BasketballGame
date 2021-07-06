@@ -10,8 +10,14 @@ public class SwipeController : MonoSingleton<SwipeController>
 {
     public static event Action OnShoot;
 
-    private Vector3 mousePressDownPos;
-    private Vector3 mouseReleasePos;
+    //private Vector3 mousePressDownPos;
+    //private Vector3 mouseReleasePos;
+
+    [SerializeField]
+    private float throwForceInX = 1f, throwForceInY = 1f, throwForceInZ = 50f;
+    private float touchTimeStart, touchTimeEnd, timeInterval;
+
+    private Vector2 startPosition, endPosition, ballDirection;
 
     private Rigidbody rb;
 
@@ -24,28 +30,47 @@ public class SwipeController : MonoSingleton<SwipeController>
 
     private void OnMouseDown()
     {
-        mousePressDownPos = Input.mousePosition;
+        if(Input.GetMouseButtonDown(0))
+        {
+            touchTimeStart = Time.time;
+            startPosition = Input.mousePosition;
+        }
     }
 
     private void OnMouseUp()
     {
-        mouseReleasePos = Input.mousePosition;
-        Shoot(mouseReleasePos - mousePressDownPos);
+        if(Input.GetMouseButtonUp(0))
+        {
+            touchTimeEnd = Time.time;
+            timeInterval = touchTimeEnd - touchTimeStart;
+
+            endPosition = Input.mousePosition;
+
+            ballDirection = startPosition - endPosition;
+        }
+
+        Shoot();
+
     }
 
-    private float forceMultiplier = 1f;
+    //private float forceMultiplier = 1f;
    
-    void Shoot(Vector3 Force)
+    void Shoot()
     {
-        if(!EventSystem.current.IsPointerOverGameObject())
-        {
-            OnShoot?.Invoke();
-            if (isShoot)
-                return;
-            rb.isKinematic = false;
-            rb.AddForce(new Vector3(Force.x, Force.y, Force.y) * forceMultiplier);
-            isShoot = true;
-        }
+        float SpeedY = LevelController.Instance.yForce;
+        float SpeedZ = LevelController.Instance.zForce;
+
+        float xForce = Mathf.Clamp(-ballDirection.x * throwForceInX, -5, 5);
+        float yForce = Mathf.Clamp(-ballDirection.y * throwForceInY, 100, 700 + SpeedY);
+        float zForce = ((throwForceInZ + SpeedZ) / timeInterval);
+
+        OnShoot?.Invoke();
+        if (isShoot)
+            return;
+        rb.isKinematic = false;
+        rb.AddForce(xForce, yForce, zForce);
+        isShoot = true;
+
     }
 
 }

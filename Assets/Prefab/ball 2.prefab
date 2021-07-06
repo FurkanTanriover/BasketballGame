@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballType: {fileID: 11400000, guid: 42ca9e8e914ee6541849ff169d01cfaf, type: 2}
+  scoreCounter: 1
 --- !u!114 &-9181229630619830885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,5 +140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d21610d37ee35a489cd3abda3095202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwForceInXandY: 1
+  throwForceInX: 1
+  throwForceInY: 1
   throwForceInZ: 100
