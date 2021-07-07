@@ -7,11 +7,11 @@ using UnityEngine.UI;
 
 public class UIManager : MonoSingleton<UIManager>
 {
-    [SerializeField] private GameObject gameEndPanel;
+    [SerializeField] public GameObject gameEndPanel;
     [SerializeField] private GameObject startGamePanel;
-    [SerializeField] private TMP_Text scoreText;
-    [SerializeField] private TMP_Text amountText;
-    [SerializeField] private TMP_Text endPanelScoreText;
+    [SerializeField] public TMP_Text scoreText;
+    [SerializeField] public TMP_Text amountText;
+    [SerializeField] public TMP_Text endPanelScoreText;
 
 
     public static event Action OnContinueButtonClicked;
@@ -26,7 +26,7 @@ public class UIManager : MonoSingleton<UIManager>
         Ball.ScoreAction += ScorePanel;
         BallPool.BallAmountAction += BallAmountPanel;
         amountText.text = "AMOUNT :" + BallPool.Instance.poolCounter.ToString();
-
+        scoreText.text = "SCORE :0";
 
     }
     public void ContinueButton()
@@ -59,11 +59,5 @@ public class UIManager : MonoSingleton<UIManager>
     public void BallAmountPanel()
     {
         amountText.text = "AMOUNT :" + BallPool.Instance.poolCounter.ToString();
-    }
-
-    public void Restart()
-    {
-        scoreCounter = 0;
-
     }
 }

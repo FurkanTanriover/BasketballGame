@@ -10,8 +10,7 @@ public class Spawner : MonoSingleton<Spawner>
     private void Start()
     {
         SwipeController.OnShoot += SpawnBall;
-        obj = BallPool.Instance.GetPooledObject(LevelController.Instance.levelList[0].balltype);
-        obj.transform.position = LevelController.Instance.startPosition.transform.position;
+        SpawnFirstBall();
     }
     public void SpawnBall()
     {
@@ -21,8 +20,14 @@ public class Spawner : MonoSingleton<Spawner>
     public IEnumerator SpawnBallDelay()
     {
         yield return new WaitForSeconds(spawnDelayTime);
-        obj = BallPool.Instance.GetPooledObject(LevelController.Instance.levelList[0].balltype);
+        obj = BallPool.Instance.GetPooledObject(LevelController.Instance.levelList[LevelController.Instance.levelCounter].balltype);
         obj.transform.position = LevelController.Instance.startPosition.transform.position;    
+    }
+
+    public void SpawnFirstBall()
+    {
+        obj = BallPool.Instance.GetPooledObject(LevelController.Instance.levelList[LevelController.Instance.levelCounter].balltype);
+        obj.transform.position = LevelController.Instance.startPosition.transform.position;
     }
 
 }

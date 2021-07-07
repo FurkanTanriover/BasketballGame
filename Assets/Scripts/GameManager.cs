@@ -14,7 +14,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     [SerializeField] private GameObject scoreObject;
 
-    public float showEndPanelDelay = 8f;
+    public float showEndPanelDelay;
 
     private void Start()
     {
@@ -54,6 +54,8 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void NextLevel()
     {
-      //  LevelController.Instance.Restart();
+        Debug.Log("Next!!");
+        LevelController.Instance.Reset();
+        LevelController.Instance.levelCounter++;
     }
 }

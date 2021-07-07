@@ -70,7 +70,7 @@ public class SwipeController : MonoSingleton<SwipeController>
         rb.isKinematic = false;
         rb.AddForce(xForce, yForce, zForce);
         isShoot = true;
-
     }
 
+        
 }
