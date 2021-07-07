@@ -21,6 +21,7 @@ public class BallPool : MonoSingleton<BallPool>
    
     [SerializeField] private Pool[] pools = null;
 
+
     private void Awake()
     {
         for (int j = 0; j < pools.Length; j++)
@@ -36,6 +37,12 @@ public class BallPool : MonoSingleton<BallPool>
                 pools[j].pooledObjects.Enqueue(obj);
             }
         }
+    }
+
+    private void Start()
+    {
+        GameManager.EndGameEvent += ResetPool;
+
     }
 
     public GameObject GetPooledObject(int objectType)
@@ -54,5 +61,27 @@ public class BallPool : MonoSingleton<BallPool>
         return obj;
     }
 
+    public void ResetPool()
+    {
+        for(int i=0;i<pools[0].pooledObjects.Count;i++)
+        {
+            GameObject obj = pools[0].pooledObjects.Dequeue();
+            Rigidbody rb = obj.GetComponent<Rigidbody>();
+            obj.transform.position = Vector3.zero;
+            obj.transform.rotation = Quaternion.identity;
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+
+        for (int i = 0; i < pools[1].pooledObjects.Count; i++)
+        {
+            GameObject obj = pools[1].pooledObjects.Dequeue();
+            Rigidbody rb = obj.GetComponent<Rigidbody>();
+            obj.transform.position = Vector3.zero;
+            obj.transform.rotation = Quaternion.identity;
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+    }
 
 }

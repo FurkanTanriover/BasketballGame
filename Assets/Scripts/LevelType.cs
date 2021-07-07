@@ -6,6 +6,5 @@ using UnityEngine;
 public class LevelType : ScriptableObject
 {
     public int balltype;
-   // public GameObject spawnPoint;
     public Vector3 startPosition = Vector3.one;
 }

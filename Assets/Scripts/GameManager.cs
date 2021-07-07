@@ -47,6 +47,7 @@ public class GameManager : MonoSingleton<GameManager>
                 gameEnded = true;
                 EndGameEvent?.Invoke();
                 Debug.Log("GAME OVER");
+                
             }
         }
     }
@@ -55,7 +56,8 @@ public class GameManager : MonoSingleton<GameManager>
     public void NextLevel()
     {
         Debug.Log("Next!!");
-        LevelController.Instance.Reset();
         LevelController.Instance.levelCounter++;
+        LevelController.Instance.Reset();
+        LevelController.Instance.LevelSetting();
     }
 }

@@ -9,22 +9,22 @@ public class Spawner : MonoSingleton<Spawner>
 
     private void Start()
     {
-        SwipeController.OnShoot += SpawnBall;
-        SpawnFirstBall();
+        SwipeController.OnShoot += SpawnNewBall;
+        SpawnBall();
     }
-    public void SpawnBall()
+    public void SpawnNewBall()
     {
-        StartCoroutine(SpawnBallDelay());
+        StartCoroutine(SpawnNewBallDelay());
 
     }
-    public IEnumerator SpawnBallDelay()
+    public IEnumerator SpawnNewBallDelay()
     {
         yield return new WaitForSeconds(spawnDelayTime);
         obj = BallPool.Instance.GetPooledObject(LevelController.Instance.levelList[LevelController.Instance.levelCounter].balltype);
         obj.transform.position = LevelController.Instance.startPosition.transform.position;    
     }
 
-    public void SpawnFirstBall()
+    public void SpawnBall()
     {
         obj = BallPool.Instance.GetPooledObject(LevelController.Instance.levelList[LevelController.Instance.levelCounter].balltype);
         obj.transform.position = LevelController.Instance.startPosition.transform.position;
