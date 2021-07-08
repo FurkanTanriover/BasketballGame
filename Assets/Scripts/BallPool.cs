@@ -12,13 +12,12 @@ public class BallPool : MonoSingleton<BallPool>
         public Queue<GameObject> pooledObjects;
         public GameObject objectPrefab;
         public int poolSize;
+
     }
 
     public int poolCounter;
-
     public static event Action BallAmountAction;
-    
-   
+
     [SerializeField] private Pool[] pools = null;
 
 
@@ -27,13 +26,10 @@ public class BallPool : MonoSingleton<BallPool>
         for (int j = 0; j < pools.Length; j++)
         {
             pools[j].pooledObjects = new Queue<GameObject>();
-            poolCounter = 1;
-
             for (int i = 0; i < pools[j].poolSize; i++)
             {
-                GameObject obj = Instantiate(pools[j].objectPrefab,LevelController.Instance.startPosition.transform.position, Quaternion.identity, transform);
+                GameObject obj = Instantiate(pools[j].objectPrefab, LevelController.Instance.startPosition.transform.position, Quaternion.identity, transform);
                 obj.SetActive(false);
-                poolCounter++;
                 pools[j].pooledObjects.Enqueue(obj);
             }
         }
@@ -42,20 +38,13 @@ public class BallPool : MonoSingleton<BallPool>
     private void Start()
     {
         GameManager.EndGameEvent += ResetPool;
-
     }
 
     public GameObject GetPooledObject(int objectType)
     {
-        if (objectType >= pools.Length)
-        {
-
-        }
         GameObject obj = pools[objectType].pooledObjects.Dequeue();
-        poolCounter--;
         obj.SetActive(true);
         pools[objectType].pooledObjects.Enqueue(obj);
-        Debug.Log("Kalan top sayýsý: " + poolCounter);
         BallAmountAction?.Invoke();
 
         return obj;
@@ -63,20 +52,28 @@ public class BallPool : MonoSingleton<BallPool>
 
     public void ResetPool()
     {
-        for(int i=0;i<pools[0].pooledObjects.Count;i++)
+        IEnumerator<GameObject> enumerator = pools[0].pooledObjects.GetEnumerator();
+        while (enumerator.MoveNext())
         {
-            GameObject obj = pools[0].pooledObjects.Dequeue();
+            GameObject obj = enumerator.Current;
             Rigidbody rb = obj.GetComponent<Rigidbody>();
+            obj.GetComponent<SwipeController>().isShoot = false;
+            obj.GetComponent<Ball>().ResetBounceCounter();
+            obj.SetActive(false);
             obj.transform.position = Vector3.zero;
             obj.transform.rotation = Quaternion.identity;
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
 
-        for (int i = 0; i < pools[1].pooledObjects.Count; i++)
+        IEnumerator<GameObject> enumerator2 = pools[1].pooledObjects.GetEnumerator();
+        while (enumerator2.MoveNext())
         {
-            GameObject obj = pools[1].pooledObjects.Dequeue();
+            GameObject obj = enumerator2.Current;
             Rigidbody rb = obj.GetComponent<Rigidbody>();
+            obj.GetComponent<SwipeController>().isShoot = false;
+            obj.GetComponent<Ball>().ResetBounceCounter();
+            obj.SetActive(false);
             obj.transform.position = Vector3.zero;
             obj.transform.rotation = Quaternion.identity;
             rb.velocity = Vector3.zero;

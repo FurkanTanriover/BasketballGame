@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 13579120}
   - component: {fileID: 9080798790225613332}
   - component: {fileID: -9181229630619830885}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: ball 2
   m_TagString: Ball
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballType: {fileID: 11400000, guid: 42ca9e8e914ee6541849ff169d01cfaf, type: 2}
-  scoreCounter: 1
+  invicBallDelay: 2
 --- !u!114 &-9181229630619830885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,3 +143,4 @@ MonoBehaviour:
   throwForceInX: 1
   throwForceInY: 1
   throwForceInZ: 100
+  isShoot: 0

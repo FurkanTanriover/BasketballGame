@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23a0c6c603a4e634daa9c3543085b6ac, type: 3}
   m_Name: BallType2
   m_EditorClassIdentifier: 
-  ballColor: {r: 0.12746526, g: 0.8773585, b: 0.2280867, a: 1}
+  ballColor: {r: 0.15194014, g: 0.8301887, b: 0.7066489, a: 1}
   ballScale: {x: 1.2, y: 1.2, z: 1.2}
   typeName: GreenBall
-  ballMass: 1.5
+  ballMass: 1.2

@@ -10,18 +10,12 @@ public class SwipeController : MonoSingleton<SwipeController>
 {
     public static event Action OnShoot;
 
-    //private Vector3 mousePressDownPos;
-    //private Vector3 mouseReleasePos;
-
     [SerializeField]
     private float throwForceInX = 1f, throwForceInY = 1f, throwForceInZ = 50f;
     private float touchTimeStart, touchTimeEnd, timeInterval;
-
     private Vector2 startPosition, endPosition, ballDirection;
-
     private Rigidbody rb;
-
-    private bool isShoot;
+    public bool isShoot = false;
 
     void Start()
     {
@@ -30,7 +24,7 @@ public class SwipeController : MonoSingleton<SwipeController>
 
     private void OnMouseDown()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             touchTimeStart = Time.time;
             startPosition = Input.mousePosition;
@@ -39,7 +33,7 @@ public class SwipeController : MonoSingleton<SwipeController>
 
     private void OnMouseUp()
     {
-        if(Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0))
         {
             touchTimeEnd = Time.time;
             timeInterval = touchTimeEnd - touchTimeStart;
@@ -48,29 +42,30 @@ public class SwipeController : MonoSingleton<SwipeController>
 
             ballDirection = startPosition - endPosition;
         }
-
         Shoot();
-
     }
 
-    //private float forceMultiplier = 1f;
-   
+
     void Shoot()
     {
-        float SpeedY = LevelController.Instance.yForce;
-        float SpeedZ = LevelController.Instance.zForce;
+        if (!GameManager.Instance.CheckEndGame() && GameManager.Instance.canShoot && !isShoot)
+        {
+            float SpeedY = LevelController.Instance.levelList[LevelController.Instance.levelCounter].yForce;
+            float SpeedZ = LevelController.Instance.levelList[LevelController.Instance.levelCounter].zForce;
 
-        float xForce = Mathf.Clamp(-ballDirection.x * throwForceInX, -5, 5);
-        float yForce = Mathf.Clamp(-ballDirection.y * throwForceInY, 100, 700 + SpeedY);
-        float zForce = ((throwForceInZ + SpeedZ) / timeInterval);
+            float xForce = Mathf.Clamp(-ballDirection.x * throwForceInX, -5, 5);
+            float yForce = Mathf.Clamp(-ballDirection.y * throwForceInY, 100, 700 + SpeedY);
+            float zForce = ((throwForceInZ + SpeedZ) / timeInterval);
 
-        OnShoot?.Invoke();
-        if (isShoot)
-            return;
-        rb.isKinematic = false;
-        rb.AddForce(xForce, yForce, zForce);
-        isShoot = true;
+
+            LevelController.Instance.amount--;
+
+            UIManager.Instance.BallAmountPanel();
+            OnShoot?.Invoke();
+
+            rb.AddForce(xForce, yForce, zForce);
+            isShoot = true;
+            GameManager.Instance.CheckEndGame();
+        }
     }
-
-        
 }

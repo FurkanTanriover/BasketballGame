@@ -12,6 +12,9 @@ public class Ball : MonoSingleton<Ball>
     private Rigidbody ballMass;
     private Transform ballScale;
 
+    public int invicBallDelay = 3;
+    private int bounceCounter = 0;
+
     void Start()
     {
         ballColor = GetComponent<MeshRenderer>();
@@ -23,18 +26,34 @@ public class Ball : MonoSingleton<Ball>
         transform.localScale = ballType.ballScale;
     }
 
+    public void ResetBounceCounter()
+    {
+        bounceCounter = 0;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == ("scoretrigger"))
+        if (other.gameObject.CompareTag("scoretrigger"))
         {
             ScoreAction?.Invoke();
-            Debug.Log("Score!!");
+        }
+    }
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("ground"))
+        {
+            bounceCounter++;
+            if (bounceCounter >= 4)
+            {
+                StartCoroutine(InvicBallDelay());
+            }
         }
     }
 
-
-    void Update()
+    private IEnumerator InvicBallDelay()
     {
-        
+        yield return new WaitForSeconds(invicBallDelay);
+        gameObject.SetActive(false);
+
     }
 }

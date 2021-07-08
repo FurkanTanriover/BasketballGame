@@ -8,56 +8,41 @@ using TMPro;
 
 public class GameManager : MonoSingleton<GameManager>
 {
-
-    public bool gameEnded = false;
     public static event Action EndGameEvent;
-
-    [SerializeField] private GameObject scoreObject;
-
     public float showEndPanelDelay;
-
-    private void Start()
+    public bool canShoot = false;
+    private void Awake()
     {
         UIManager.OnContinueButtonClicked += NextLevel;
         UIManager.OnStartButtonClicked += StartGame;
     }
 
-    private void Update()
-    {
-        EndGame();
-    }
-
     public void StartGame()
     {
-        UIManager.Instance.ShowStartPanel();
+        UIManager.Instance.CloseStartPanel();
     }
 
-    public void EndGame()
+    public bool CheckEndGame()
     {
-        StartCoroutine(ShowEndPanelDelay());
+        if (LevelController.Instance.amount <= 0)
+        {
+            StartCoroutine(ShowEndPanelDelay());
+            return true;
+        }
+        return false;
     }
 
     public IEnumerator ShowEndPanelDelay()
     {
-        if (gameEnded == false)
-        {
-            if (BallPool.Instance.poolCounter <= 0)
-            {
-                yield return new WaitForSeconds(showEndPanelDelay);
-                gameEnded = true;
-                EndGameEvent?.Invoke();
-                Debug.Log("GAME OVER");
-                
-            }
-        }
+        yield return new WaitForSeconds(showEndPanelDelay);
+        EndGameEvent?.Invoke();
     }
-
 
     public void NextLevel()
     {
-        Debug.Log("Next!!");
-        LevelController.Instance.levelCounter++;
+        LevelController.Instance.CheckLevelCounter();
         LevelController.Instance.Reset();
         LevelController.Instance.LevelSetting();
     }
+
 }
