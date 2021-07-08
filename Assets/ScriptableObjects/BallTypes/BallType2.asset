@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballColor: {r: 0.15194014, g: 0.8301887, b: 0.7066489, a: 1}
   ballScale: {x: 1.2, y: 1.2, z: 1.2}
-  typeName: GreenBall
+  typeName: StrongCyanBall
   ballMass: 1.2

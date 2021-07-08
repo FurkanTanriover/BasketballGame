@@ -14,6 +14,7 @@ public class LevelController : MonoSingleton<LevelController>
     private void Awake()
     {
         LevelSetting();
+        UIManager.OnContinueButtonClicked += NextLevel;
     }
     public void LevelSetting()
     {
@@ -21,10 +22,11 @@ public class LevelController : MonoSingleton<LevelController>
         amount = levelList[levelCounter].ballAmount;
     }
 
-    public void Reset()
+    public void ResetUI()
     {
         UIManager.Instance.ResetScorePanel();
         UIManager.Instance.CloseEndPanel();
+        UIManager.Instance.LevelInfoText();
     }
 
     public void CheckLevelCounter()
@@ -37,6 +39,13 @@ public class LevelController : MonoSingleton<LevelController>
         {
             levelCounter++;
         }
+    }
+
+    public void NextLevel()
+    {
+        Instance.CheckLevelCounter();
+        Instance.ResetUI();
+        LevelSetting();
     }
 
 }

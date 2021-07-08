@@ -11,6 +11,7 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] public TMP_Text scoreText;
     [SerializeField] public TMP_Text amountText;
     [SerializeField] public TMP_Text endPanelScoreText;
+    [SerializeField] public TMP_Text levelnfoText;
     [SerializeField] private GameObject startGamePanel;
 
     [SerializeField] private List<ParticleSystem> confettiList;
@@ -27,6 +28,7 @@ public class UIManager : MonoSingleton<UIManager>
         BallPool.BallAmountAction += BallAmountPanel;
         amountText.text = "AMOUNT :  " + LevelController.Instance.amount;
         scoreText.text = "SCORE :  0";
+        LevelInfoText();
     }
     public void ContinueButton()
     {
@@ -36,6 +38,11 @@ public class UIManager : MonoSingleton<UIManager>
     public void StartButton()
     {
         OnStartButtonClicked?.Invoke();
+    }
+
+    public void LevelInfoText()
+    {
+        levelnfoText.text = "LEVEL :  " + (LevelController.Instance.levelCounter + 1);
     }
 
     public void ConfettiPlay()
@@ -49,7 +56,7 @@ public class UIManager : MonoSingleton<UIManager>
     {
         gameEndPanel.SetActive(true);
         ConfettiPlay();
-        endPanelScoreText.text = "SCORE :  "+ scoreCounter.ToString();
+        endPanelScoreText.text = "SCORE :  " + scoreCounter.ToString();
         GameManager.Instance.canShoot = false;
     }
 

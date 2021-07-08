@@ -16,4 +16,4 @@ MonoBehaviour:
   startPosition: {x: 0, y: 0, z: 0}
   zForce: 0
   yForce: 0
-  ballAmount: 13
+  ballAmount: 10

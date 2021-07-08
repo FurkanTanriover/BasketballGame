@@ -13,7 +13,7 @@ public class GameManager : MonoSingleton<GameManager>
     public bool canShoot = false;
     private void Awake()
     {
-        UIManager.OnContinueButtonClicked += NextLevel;
+
         UIManager.OnStartButtonClicked += StartGame;
     }
 
@@ -38,11 +38,6 @@ public class GameManager : MonoSingleton<GameManager>
         EndGameEvent?.Invoke();
     }
 
-    public void NextLevel()
-    {
-        LevelController.Instance.CheckLevelCounter();
-        LevelController.Instance.Reset();
-        LevelController.Instance.LevelSetting();
-    }
+
 
 }
