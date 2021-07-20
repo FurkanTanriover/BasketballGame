@@ -53,7 +53,7 @@ public class SwipeController : MonoSingleton<SwipeController>
             float SpeedY = LevelController.Instance.levelList[LevelController.Instance.levelCounter].yForce;
             float SpeedZ = LevelController.Instance.levelList[LevelController.Instance.levelCounter].zForce;
 
-            float xForce = Mathf.Clamp(-ballDirection.x * throwForceInX, -5, 5);
+            float xForce = Mathf.Clamp(-ballDirection.x * throwForceInX, -20, 20);
             float yForce = Mathf.Clamp(-ballDirection.y * throwForceInY, 100, 700 + SpeedY);
             float zForce = ((throwForceInZ + SpeedZ) / timeInterval);
 
