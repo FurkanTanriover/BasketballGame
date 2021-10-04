@@ -7,5 +7,4 @@
 - Atış yapıldıktan sonra top oluşturulması için object pool kullanılmıştır.
 - Level bitişinde, atış yapıldıktan sonra, top adetinin azaltılmasında, skor tetiklenmesinde ve yeni level geçişinde eventler kullanılmıştır.
 - Level sonu için particle system ile konfeti efekti oluşturulmuştur.
-- Oyun 10 leveldan oluşmaktadır, level eklenmesi durumunda open-close prensibi gereğince kolayca adapte edilir.
 - 10 levelden sonra tekrar başa sarmaktadır.
